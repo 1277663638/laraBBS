@@ -39,6 +39,10 @@ class User extends Authenticatable implements MustVerifyEmailContract
     ];
 
     public function getAvatarAttribute($value){
+        $res=parse_url($value);
+        if(isset($res['host'])&&!empty($res['host'])){
+            return $value;
+        }
         return config('app.url').'/'.$value;
     }
 }
