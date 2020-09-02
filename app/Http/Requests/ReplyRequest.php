@@ -12,18 +12,9 @@ class ReplyRequest extends Request
             case 'POST':
             {
                 return [
-                    // CREATE ROLES
+                    'content' => 'required|min:2',
                 ];
             }
-            // UPDATE
-            case 'PUT':
-            case 'PATCH':
-            {
-                return [
-                    // UPDATE ROLES
-                ];
-            }
-            case 'GET':
             case 'DELETE':
             default:
             {
