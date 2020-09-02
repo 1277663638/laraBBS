@@ -38,13 +38,13 @@ class User extends Authenticatable implements MustVerifyEmailContract
         'email_verified_at' => 'datetime',
     ];
 
-    public function getAvatarAttribute($value){
-        $res=parse_url($value);
-        if(isset($res['host'])&&!empty($res['host'])){
-            return $value;
-        }
-        return config('app.url').'/'.$value;
-    }
+    // public function getAvatarAttribute($value){
+    //     $res=parse_url($value);
+    //     if(isset($res['host'])&&!empty($res['host'])){
+    //         return $value;
+    //     }
+    //     return config('app.url').'/'.$value;
+    // }
 
     public function topics()
     {
@@ -54,5 +54,10 @@ class User extends Authenticatable implements MustVerifyEmailContract
     public function isAuthorOf(Model $model)
     {
         return $this->id == $model->user_id;
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
     }
 }
