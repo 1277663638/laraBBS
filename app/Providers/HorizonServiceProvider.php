@@ -38,6 +38,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
         });
     }
 
+    //overwirte
     protected function authorization()
     {
         $this->gate();
