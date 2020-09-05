@@ -33,6 +33,34 @@ class RepliesTableSeeder extends Seeder
 
         // 将数据集合转换为数组，并插入到数据库中
         Reply::insert($replies->toArray());
+
+
+        \DB::update("UPDATE topics AS t SET last_reply_user_id = IFNULL((
+            SELECT
+                user_id
+            FROM
+                replies AS r
+            WHERE
+                r.created_at = (
+                    SELECT
+                        max(created_at)
+                    FROM
+                        replies AS b
+                    WHERE
+                        r.topic_id = b.topic_id
+                    AND t.id = b.topic_id
+                )
+        ),0)");
+        \DB::update('UPDATE topics AS t
+        SET reply_count = IFNULL((
+            SELECT
+                count(*)
+            FROM
+                replies AS r
+            WHERE
+                t.id = r.topic_id
+        ),0)');
+
     }
 
 }
