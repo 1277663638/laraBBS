@@ -10,6 +10,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 
 use App\Handlers\ImageUploadHandler;
+use App\Models\User;
 
 class TopicsController extends Controller
 {
@@ -18,10 +19,11 @@ class TopicsController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show']]);
     }
 
-	public function index(Request $request)
+	public function index(Request $request,User $user)
 	{
 		$topics = Topic::with('user', 'category')->withOrder($request->order)->paginate(30);
-		return view('topics.index', compact('topics'));
+        $active_users = $user->getActiveUsers();
+		return view('topics.index', compact('topics','active_users'));
 	}
 
     public function show(Topic $topic,Request $request)
